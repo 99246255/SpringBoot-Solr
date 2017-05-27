@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>京东搜索</title>
+    <link href="/assets/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/assets/css/font-awesome.css?v=4.4.0" rel="stylesheet"/>
+    <link href="/assets/css/dist/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+    <link href="/assets/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"/>
+    <link href="/assets/css/animate.css" rel="stylesheet"/>
+    <link href="/assets/css/style.css?v=4.1.0" rel="stylesheet"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>商品搜索</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="search-div">
+                        <input size="16" type="text" id="queryString"></input>
+                        <span >
+							<button class="btn-primary" type="button" onclick="refreshTable()" style="margin-left:1rem;">搜索</button>
+						</span>
+                    </div>
+                    <div></div>
+                    <div class="row row-lg">
+                        <div class="col-sm-12">
+                            <div class="example-wrap">
+                               <table id="table_list"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="/assets/js/jquery.min.js?v=2.1.4"></script>
+<script src="/assets/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/assets/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/assets/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="/assets/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function () {
+        //初始化表格,动态从服务器加载数据
+        $("#table_list").bootstrapTable({
+            //使用get请求到服务器获取数据
+            method: "POST",
+            //必须设置，不然request.getParameter获取不到请求参数，只能用输入流接收
+            contentType: "application/x-www-form-urlencoded",
+            //获取数据的Servlet地址
+            url: "/search",
+            //表格显示条纹
+            striped: true,
+            //启动分页
+            pagination: true,
+            //每页显示的记录数
+            pageSize: 10,
+            //当前第几页
+            pageNumber: 1,
+            //记录数可选列表
+            pageList: [5, 10, 15, 20, 25],
+            //是否启用查询
+            search: false,
+            //是否启用详细信息视图
+            detailView:false,
+            //表示服务端请求
+            sidePagination: "server",
+            //设置为undefined可以获取pageNumber，pageSize，searchText，sortName，sortOrder
+            //设置为limit可以获取limit, offset, search, sort, order
+            queryParams: queryParams, //参数
+            queryParamsType: "undefined",
+            //json数据解析
+            responseHandler: function(res) {
+                return {
+                    "rows": res.results,
+                    "total": res.totalElements
+                };
+            },
+            //数据列
+            columns: [{
+                title: '序号',
+                formatter: function (value, row, index) {
+                    return index+1;
+                }
+            },{
+                title: "名称",
+                field: "name",
+            },{
+                title: "价格",
+                field: "price",
+            },{
+                title: "分类",
+                field: "category",
+            },{
+                title: "图片",
+                field: "pic",
+                formatter: function (value, row, index) {
+                    return '<img  src="'+ value + '" class="img-rounded" />';
+                }
+            },{
+                title: "页面链接",
+                field: "id",
+                formatter: function (value, row, index) {
+                    return '<a target="_blank" href="'+value +'" >查看页面</a>';
+                }
+            }]
+        });
+    });
+    function queryParams(pageReqeust) {
+        pageReqeust.queryString = $("#queryString").val();
+        return pageReqeust;
+    }
+    function refreshTable(){
+        $('#table_list').bootstrapTable("refresh");
+    }
+</script>
+</body>
+</html>
