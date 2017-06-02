@@ -2,21 +2,24 @@ package com.solr;
 
 import com.solr.domain.Good;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 
 import java.lang.reflect.Method;
 import java.sql.Date;
 
+/**
+ * 单机模式下的测试
+ */
 @SuppressWarnings("deprecation")
 public class SolrTest {
-    private static HttpSolrServer solrServer;
+    private static HttpSolrClient solrClient;
 
     static {
         //注意请求地址格式：浏览器中的地址有 ‘#’，需要把‘#’去掉！
-        solrServer = new HttpSolrServer("http://localhost:8983/solr/mysql");
-        solrServer.setConnectionTimeout(5000);
+        solrClient = new HttpSolrClient("http://localhost:8983/solr/solr");
+        solrClient.setConnectionTimeout(5000);
     }
 
     /**
@@ -30,8 +33,8 @@ public class SolrTest {
         doc.addField("updateTime", good.getUpdateTime());
 
         try {
-            solrServer.add(doc);
-            solrServer.commit();
+            solrClient.add(doc);
+            solrClient.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,8 +45,8 @@ public class SolrTest {
      */
     public static void deleteById(String id) {
         try {
-            solrServer.deleteById(id+"");
-            solrServer.commit();
+            solrClient.deleteById(id+"");
+            solrClient.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,8 +57,8 @@ public class SolrTest {
      */
     public static void deleteAll() {
         try {
-            solrServer.deleteByQuery("*:*");
-            solrServer.commit();
+            solrClient.deleteByQuery("*:*");
+            solrClient.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,7 +80,7 @@ public class SolrTest {
         query.setQuery("id:" + id);
 
         try {
-            QueryResponse rsp = solrServer.query(query);
+            QueryResponse rsp = solrClient.query(query);
             return rsp.getBeans(clazz).get(0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,6 +109,6 @@ public class SolrTest {
         Good good = new Good("123", "9999", "hjzgg5211314", new Date(System.currentTimeMillis()));
         update(good);
         System.out.println(getById("123", Good.class));
-        deleteByObject(good, "id");
+//        deleteByObject(good, "id");
     }
 }

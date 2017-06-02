@@ -31,4 +31,8 @@ http://localhost:8111/index 查看和搜索
 
 solr+jetty+mysql配置参考
 http://www.cnblogs.com/hujunzheng/p/5647896.html?plg_nld=1&plg_uin=1&plg_auth=1&plg_nld=1&plg_usr=1&plg_vkey=1&plg_dev=1
-配置完后可运行SolrTest测试
+SolrTest为单机测试代码
+
+solr集群部署
+http://www.jianshu.com/p/afe68b79dd06
+SolrCloudTest为集群测试代码
