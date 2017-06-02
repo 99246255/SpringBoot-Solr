@@ -28,3 +28,7 @@ tomcat 在web.xml中配置的  <env-entry-value>F:\solr_home</env-entry-value> �
 
 启动DemoApplication.main 
 http://localhost:8111/index 查看和搜索
+
+solr+jetty+mysql配置参考
+http://www.cnblogs.com/hujunzheng/p/5647896.html?plg_nld=1&plg_uin=1&plg_auth=1&plg_nld=1&plg_usr=1&plg_vkey=1&plg_dev=1
+配置完后可运行SolrTest测试
