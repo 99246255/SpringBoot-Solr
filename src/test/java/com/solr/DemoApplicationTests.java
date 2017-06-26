@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.downloader.selenium.SeleniumDownloader;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
 
 @RunWith(SpringRunner.class)
@@ -29,7 +28,7 @@ public class DemoApplicationTests {
 		Spider jdSpider = Spider.create(new JDProductProcessor())
 				.addUrl("http://www.jd.com/allSort.aspx")// JD全部分类
 				.addPipeline(jdPipeline)
-				.setDownloader(new SeleniumDownloader(chromeDriverPath))
+//				.setDownloader(new SeleniumDownloader(chromeDriverPath))// 可用谷歌浏览器，默认Downloader基于HttpClient
 				.thread(5);
 		// 注册爬虫监控
 		SpiderMonitor.instance().register(jdSpider);

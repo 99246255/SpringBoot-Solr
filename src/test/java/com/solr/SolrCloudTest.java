@@ -41,13 +41,11 @@ public class SolrCloudTest {
         // CommonsHttpSolrServer 基于Http协议进行C/S数据交互
         // EmbeddedSolrServer
         // 内嵌式，只要设定好solr的home目录即可实现和solr的交互，不需要开启solr的服务器，本地交互
-        client = new CloudSolrClient.Builder().withZkHost(zookeeperUrl).build();
-        client.setSoTimeout(10000); // socket read timeout
+        client = new CloudSolrClient(zookeeperUrl);
         //指定Collection名称
         client.setDefaultCollection("solr");
         client.setZkClientTimeout(30000);
         client.setZkConnectTimeout(30000);
-        client.setSoTimeout(30000);
     }
 
     /**
