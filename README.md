@@ -2,7 +2,7 @@
 SpringBoot + solr + webmagic 学习solr写的demo
 ## 1 概述
 根据https://github.com/ameizi/solrj-example 改的，原项目是Spring,改成Springboot
-solrj-example的webmagic价格和图片有点小问题，爬取的数据从存入数据库改成直接放入solr
+solrj-example的webmagic价格和图片有点小问题，图片存取URL即可，爬取的数据从存入数据库改成直接放入solr
 ## 2 webmagic使用自定义Downloader 
 chromedrive是2.25版本的，支持的Chrome版本v53-55，如果版本不一致自行替换chromedrive或修改chrome版本
 ## 3 Solr启动
